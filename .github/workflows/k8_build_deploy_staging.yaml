@@ -27,7 +27,9 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           # generate Docker tags based on the following events/attributes
-          images: ${{ github.repository }}
+          images: |
+            mylifehub-api
+            mylifehub-web
             
       -
         name: Set up Docker Buildx
