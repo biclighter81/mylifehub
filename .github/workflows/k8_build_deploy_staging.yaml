@@ -43,11 +43,22 @@ jobs:
         name: Git checkout
         uses: actions/checkout@v2
       -
-        name: Build and push Docker images
+        name: Build and push Docker api
         # You may pin to the exact commit or the version.
         uses: docker/build-push-action@v4
         with:
-          tags: ${{ github.repository }}:${{ github.sha }}
+          tags: mylifehub-api:${{ github.sha }}
           # List of metadata for an image
           labels: ${{ steps.meta.outputs.labels }}
+          context: ./apps/api
+          push: true
+      - 
+        name: Build and push Docker web
+        # You may pin to the exact commit or the version.
+        uses: docker/build-push-action@v4
+        with:
+          tags: mylifehub-web:${{ github.sha }}
+          # List of metadata for an image
+          labels: ${{ steps.meta.outputs.labels }}
+          context: ./apps/web
           push: true
