@@ -28,8 +28,8 @@ jobs:
         with:
           # generate Docker tags based on the following events/attributes
           images: |
-            mylifehub-api
-            mylifehub
+            biclighter81/mylifehub-api
+            biclighter81/mylifehub
             
       -
         name: Set up Docker Buildx
