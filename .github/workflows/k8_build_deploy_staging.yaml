@@ -63,5 +63,6 @@ jobs:
           tags: biclighter81/mylifehub:${{ github.sha }}
           # List of metadata for an image
           labels: ${{ steps.meta.outputs.labels }}
-          context: ./apps/next/next.dockerfile
+          context: .
+          file: ./apps/next/next.dockerfile
           push: true
