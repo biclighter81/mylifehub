@@ -2,10 +2,5 @@
   "name": "types",
   "version": "0.0.0",
   "private": true,
-  "main": "./index.ts",
-  "types": "./index.ts",
-  "dependencies": {
-    "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.14"
-  }
+  "main": "src/index.ts"
 }
