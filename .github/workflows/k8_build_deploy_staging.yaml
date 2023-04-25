@@ -27,7 +27,9 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           # generate Docker tags based on the following events/attributes
-          images: ${{ github.repository }}
+          images: |
+            biclighter81/mylifehub-api
+            biclighter81/mylifehub
             
       -
         name: Set up Docker Buildx
@@ -43,11 +45,24 @@ jobs:
         name: Git checkout
         uses: actions/checkout@v2
       -
-        name: Build and push Docker images
+        name: Build and push API
         # You may pin to the exact commit or the version.
         uses: docker/build-push-action@v4
         with:
-          tags: ${{ github.repository }}:${{ github.sha }}
+          tags: biclighter81/mylifehub-api:${{ github.sha }}
           # List of metadata for an image
           labels: ${{ steps.meta.outputs.labels }}
+          context: .
+          file: ./apps/api/api.dockerfile
+          push: true
+      - 
+        name: Build and push WEB
+        # You may pin to the exact commit or the version.
+        uses: docker/build-push-action@v4
+        with:
+          tags: biclighter81/mylifehub:${{ github.sha }}
+          # List of metadata for an image
+          labels: ${{ steps.meta.outputs.labels }}
+          context: .
+          file: ./apps/next/next.dockerfile
           push: true
