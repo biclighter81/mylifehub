@@ -4,7 +4,7 @@
 node_modules
 .pnp
 .pnp.js
-
+.classpath
 # testing
 coverage
 
@@ -34,3 +34,5 @@ yarn-error.log*
 dist
 .idea
 .env
+apps/next/.env
+apps/api/.env
