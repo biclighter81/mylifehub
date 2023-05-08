@@ -24,7 +24,7 @@ export default function Home() {
           <h4>
             Hallo {session.given_name} {session.family_name}
           </h4>
-          <p>{JSON.stringify(data)}</p>
+          {JSON.stringify(session.access_token)}
         </div>
       )}
     </>

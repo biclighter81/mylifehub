@@ -9,7 +9,9 @@ export class User_Routine {
   @PrimaryColumn()
   routineId: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   order: number;
 
   @ManyToOne(() => Routine, (routine) => routine.users)

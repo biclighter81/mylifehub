@@ -1,4 +1,12 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { RoutineStage } from './routine-stage.entity';
 import { User_Routine } from './use_routine.join-entity';
 
@@ -19,12 +27,24 @@ export class Routine {
   @Column({
     type: 'enum',
     enum: ['community', 'friends'],
+    nullable: true,
   })
-  published: 'community' | 'friends';
+  published: 'community' | 'friends' | null;
 
-  @OneToMany(() => RoutineStage, (stage) => stage.routine)
+  @DeleteDateColumn()
+  deletedAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @OneToMany(() => RoutineStage, (stage) => stage.routine, { cascade: true })
   stages: RoutineStage[];
 
-  @OneToMany(() => User_Routine, (user_routine) => user_routine.routine)
+  @OneToMany(() => User_Routine, (user_routine) => user_routine.routine, {
+    cascade: true,
+  })
   users: User_Routine[];
 }
