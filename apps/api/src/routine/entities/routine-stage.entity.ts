@@ -1,9 +1,12 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Routine } from './routine.entity';
 
@@ -20,6 +23,15 @@ export class RoutineStage {
 
   @Column()
   estimatedDuration: number;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @CreateDateColumn()
+  createdAt: Date;
 
   @ManyToOne(() => Routine, (routine) => routine.stages)
   routine: Routine;
