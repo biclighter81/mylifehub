@@ -5,6 +5,7 @@ export default function CheckBox({
   id,
   selected,
   setSelected,
+  onChange,
 }: {
   id: string;
   selected: { id: string; checked: boolean }[];
@@ -16,6 +17,7 @@ export default function CheckBox({
       }[]
     >
   >;
+  onChange?: (id: string, checked: boolean) => void;
 }) {
   return (
     <div
@@ -36,6 +38,9 @@ export default function CheckBox({
               }
             })
           );
+        }
+        if (onChange) {
+          onChange(id, !selected.find((s) => s.id == id)?.checked);
         }
       }}
     >

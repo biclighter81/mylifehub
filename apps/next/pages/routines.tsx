@@ -7,7 +7,6 @@ import RoutineAccordion from '../components/interaction/RoutineAccordion';
 
 export default function Routines() {
   const { data, error, isLoading } = useSWR<Routine[]>('routine', fetcher);
-
   return (
     <>
       <PageHeader title='Routines' subtitle='Manage your routines!' />

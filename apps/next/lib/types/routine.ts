@@ -16,6 +16,7 @@ export interface Routine {
   createdAt: Date;
 
   stages: RoutineStage[];
+  users: User_Routine[];
 }
 
 export interface RoutineStage {
@@ -32,4 +33,11 @@ export interface RoutineStage {
   updatedAt: Date;
 
   createdAt: Date;
+}
+
+export interface User_Routine {
+  uid: string;
+  routineId: string;
+  order: number;
+  active: boolean;
 }

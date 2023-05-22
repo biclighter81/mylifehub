@@ -26,10 +26,18 @@ export class RoutineService {
     return routine;
   }
 
+  //invoked if user enables or disables a routine
+  async setRoutineState(id: string, sub: string, active: boolean) {
+    return await this.routineRepo.query(
+      'update public.user_routine set active = $1 where uid = $2 and "routineId" = $3',
+      [active, sub, id],
+    );
+  }
+
   async getRoutines(sub: string) {
     return await this.routineRepo.find({
       where: { users: [{ uid: sub }] },
-      relations: ['stages'],
+      relations: ['stages', 'users'],
     });
   }
 

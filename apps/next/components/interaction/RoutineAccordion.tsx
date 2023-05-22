@@ -7,6 +7,7 @@ import {
 import { ReactNode, useState } from 'react';
 import { Routine } from '../../lib/types/routine';
 import CheckBox from './CheckBox';
+import { setRoutineStageState } from '../../lib/functions/routine';
 
 export default function RoutineAccordion({
   routines,
@@ -19,7 +20,15 @@ export default function RoutineAccordion({
       id: string;
       checked: boolean;
     }[]
-  >([]);
+  >(routines.map((r) => ({ id: r.id, checked: r.users[0].active })));
+
+  async function handleActiveChange(id: string, active: boolean) {
+    try {
+      await setRoutineStageState(id, active);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <div className='flex flex-col space-y-4'>
@@ -34,6 +43,9 @@ export default function RoutineAccordion({
               id={routine.id}
               selected={activeRoutines}
               setSelected={setActiveRoutines}
+              onChange={(id, checked) => {
+                handleActiveChange(id, checked);
+              }}
             />
             <h5 className='text-md text-gray-500'>{routine.name}</h5>
             <div className='bg-blue-500 text-white font-bold uppercase px-2 py-1 rounded-xl text-xs'>
