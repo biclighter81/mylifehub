@@ -1,6 +1,9 @@
 import { signIn, useSession } from 'next-auth/react';
 import useSWR from 'swr';
 import { FetcherError, fetcher } from '../lib/fetcher';
+import DailyWidget from "../components/Dashboard/DailyWidget";
+import Headline from "../components/app/Headline";
+import { UpcomingEvents } from "../lib/types/upcomingEvents";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -8,23 +11,29 @@ export default function Home() {
     signIn('keycloak');
   }
 
-  const { data, isLoading, error } = useSWR<{ id: string }, FetcherError>(
-    `routine`,
-    fetcher
-  );
-
-  if (isLoading) return <div>Loading...</div>;
-
-  if (error) return <div>Error: {error.message}</div>;
+  const upcomingEvents: UpcomingEvents = {
+    events: [
+      {
+        id: "0123",
+        date: "2021-10-01",
+        time: "11:00 - 13:00",
+        name: "Meeting mit Max",
+      },
+      {
+        id: "0124",
+        date: "2021-10-03",
+        time: "12:00 - 14:00",
+        name: "Meeting mit Max",
+      }
+    ]
+  }
 
   return (
     <>
       {session && (
         <div>
-          <h4>
-            Hallo {session.given_name} {session.family_name}
-          </h4>
-          {JSON.stringify(session.access_token)}
+          <Headline text="Dashboard" level={1}/>
+          <DailyWidget events={upcomingEvents.events}/>
         </div>
       )}
     </>
