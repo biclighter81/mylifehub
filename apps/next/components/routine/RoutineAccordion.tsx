@@ -6,7 +6,7 @@ import {
 } from '@tabler/icons-react';
 import { ReactNode, useState } from 'react';
 import { Routine } from '../../lib/types/routine';
-import CheckBox from './CheckBox';
+import CheckBox from '../interaction/CheckBox';
 import { setRoutineStageState } from '../../lib/functions/routine';
 
 export default function RoutineAccordion({
