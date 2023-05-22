@@ -3,25 +3,10 @@ import useSWR from 'swr';
 import { fetcher } from '../lib/fetcher';
 import { IconSearch } from '@tabler/icons-react';
 import { Routine } from '../lib/types/routine';
-import CheckBox from '../components/interaction/CheckBox';
-import { useEffect, useState } from 'react';
+import RoutineAccordion from '../components/interaction/RoutineAccordion';
 
 export default function Routines() {
   const { data, error, isLoading } = useSWR<Routine[]>('routine', fetcher);
-  const [checked, setChecked] = useState<{ id: string; checked: boolean }[]>(
-    []
-  );
-
-  useEffect(() => {
-    if (data) {
-      setChecked(
-        data.map((routine) => ({
-          id: routine.id,
-          checked: true,
-        }))
-      );
-    }
-  }, [data]);
 
   return (
     <>
@@ -35,25 +20,7 @@ export default function Routines() {
         ></input>
       </div>
       <div className='mt-4 flex flex-col'>
-        {data &&
-          data.map((routine) => (
-            <div
-              key={routine.id}
-              className='bg-gray-200 px-4 py-4 rounded-lg flex items-center space-x-4'
-            >
-              <CheckBox
-                id={routine.id}
-                selected={checked}
-                setSelected={setChecked}
-              />
-              <h5 className='text-md text-gray-500'>{routine.name}</h5>
-              <p>
-                {routine.description.length > 50
-                  ? routine.description.substring(0, 50) + '...'
-                  : routine.description}
-              </p>
-            </div>
-          ))}
+        {data && <RoutineAccordion routines={data} />}
       </div>
     </>
   );

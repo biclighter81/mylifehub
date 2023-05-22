@@ -14,6 +14,9 @@ export class User_Routine {
   })
   order: number;
 
+  @Column({ type: 'boolean', default: true })
+  active: boolean;
+
   @ManyToOne(() => Routine, (routine) => routine.users)
   routine: Routine;
 }

@@ -27,7 +27,10 @@ export class RoutineService {
   }
 
   async getRoutines(sub: string) {
-    return await this.routineRepo.find({ where: { users: [{ uid: sub }] } });
+    return await this.routineRepo.find({
+      where: { users: [{ uid: sub }] },
+      relations: ['stages'],
+    });
   }
 
   async getPublicRoutines(offset: number) {

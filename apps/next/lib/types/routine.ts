@@ -1,6 +1,8 @@
 export interface Routine {
   id: string;
 
+  active: boolean;
+
   name: string;
 
   description: string;
