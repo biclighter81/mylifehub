@@ -50,11 +50,13 @@ export class RoutineService {
   }
 
   async createRoutine(input: CreateRoutine, sub: string) {
-    const stages: Partial<RoutineStage>[] = input.stages.map((stage) => ({
-      ...stage,
-      routine: undefined,
-      id: undefined,
-    }));
+    const stages: Partial<RoutineStage>[] = input.stages?.length
+      ? input.stages.map((stage) => ({
+          ...stage,
+          routine: undefined,
+          id: undefined,
+        }))
+      : [];
     return await this.routineRepo.save({
       ...input,
       stages: stages,

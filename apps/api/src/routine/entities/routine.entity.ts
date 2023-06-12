@@ -21,7 +21,7 @@ export class Routine {
   @Column()
   description: string;
 
-  @Column({ type: 'time' })
+  @Column()
   preferredTime: string;
 
   @Column({

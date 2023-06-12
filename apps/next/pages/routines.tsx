@@ -9,12 +9,15 @@ import RoutineCreationModal from '../components/routine/RoutineCreationModal';
 import { useState } from 'react';
 
 export default function Routines() {
-  const { data, error, isLoading } = useSWR<Routine[]>('routine', fetcher);
+  const { data, error, isLoading, mutate } = useSWR<Routine[]>(
+    'routine',
+    fetcher
+  );
   const [modal, setModal] = useState(false);
   return (
     <>
       <PageHeader title='Routines' subtitle='Manage your routines!' />
-      {modal && <RoutineCreationModal setActive={setModal} />}
+      {modal && <RoutineCreationModal mutate={mutate} setActive={setModal} />}
       <div className='flex space-x-3'>
         <div className='bg-gray-200 w-full flex items-center px-4 rounded-lg space-x-4'>
           <IconSearch className='text-gray-600 h-5 w-5' />
@@ -37,7 +40,7 @@ export default function Routines() {
             <Spinner />
           </div>
         )}
-        {data && <RoutineAccordion routines={data} />}
+        {data && <RoutineAccordion mutate={mutate} routines={data} />}
       </div>
     </>
   );

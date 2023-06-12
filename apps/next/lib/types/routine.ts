@@ -41,3 +41,17 @@ export interface User_Routine {
   order: number;
   active: boolean;
 }
+
+export interface CreateRoutineInput {
+  name: string;
+  description: string;
+  preferredTime: string;
+  published: 'community' | 'friends';
+  stages: CreateStageInput[];
+}
+
+export interface CreateStageInput {
+  name: string;
+  description: string;
+  estimatedDuration: number;
+}
