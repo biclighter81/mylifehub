@@ -26,8 +26,19 @@ export class RoutineService {
     return routine;
   }
 
+  //invoked if user enables or disables a routine
+  async setRoutineState(id: string, sub: string, active: boolean) {
+    return await this.routineRepo.query(
+      'update public.user_routine set active = $1 where uid = $2 and "routineId" = $3',
+      [active, sub, id],
+    );
+  }
+
   async getRoutines(sub: string) {
-    return await this.routineRepo.find({ where: { users: [{ uid: sub }] } });
+    return await this.routineRepo.find({
+      where: { users: [{ uid: sub }] },
+      relations: ['stages', 'users'],
+    });
   }
 
   async getPublicRoutines(offset: number) {
@@ -39,11 +50,13 @@ export class RoutineService {
   }
 
   async createRoutine(input: CreateRoutine, sub: string) {
-    const stages: Partial<RoutineStage>[] = input.stages.map((stage) => ({
-      ...stage,
-      routine: undefined,
-      id: undefined,
-    }));
+    const stages: Partial<RoutineStage>[] = input.stages?.length
+      ? input.stages.map((stage) => ({
+          ...stage,
+          routine: undefined,
+          id: undefined,
+        }))
+      : [];
     return await this.routineRepo.save({
       ...input,
       stages: stages,

@@ -24,7 +24,6 @@ export class CreateRoutine {
   published: 'community' | 'friends';
 
   @ValidateNested()
-  @ArrayMinSize(1)
   @Type(() => CreateStage)
   stages: CreateStage[];
 }
