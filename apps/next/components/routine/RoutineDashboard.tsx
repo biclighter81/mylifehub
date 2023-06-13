@@ -85,8 +85,8 @@ export default function RoutineDashboard({
           </div>
         )}
         {routines.map((routine) => (
-          <div className='flex flex-col space-y-4'>
-            <div key={routine.id} className='bg-gray-200 px-8 py-4 rounded-md'>
+          <div key={routine.id} className='flex flex-col space-y-4'>
+            <div className='bg-gray-200 px-8 py-4 rounded-md'>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center space-x-4'>
                   <div className='flex items-center space-x-2'>
