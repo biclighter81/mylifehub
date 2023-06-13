@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Routine } from './routine.entity';
+import { RoutineStageCompletion } from './routine-stage-completion.entity';
 
 @Entity('routine_stage')
 export class RoutineStage {
@@ -35,4 +36,13 @@ export class RoutineStage {
 
   @ManyToOne(() => Routine, (routine) => routine.stages)
   routine: Routine;
+
+  @OneToMany(
+    () => RoutineStageCompletion,
+    (routine_completion) => routine_completion.stage,
+    {
+      cascade: true,
+    },
+  )
+  completions: RoutineStageCompletion[];
 }

@@ -34,10 +34,7 @@ export default function RoutineStageCreationModal({
       }
       mutate((routines) => {
         if (!routines) return routines;
-        const routine = routines.find((r) => r.id === routineId);
-        if (!routine) return routines;
-        routine.stages.push(data);
-        return [...routines.filter((r) => r.id !== routineId), routine];
+        return [...routines.filter((r) => r.id !== routineId), data];
       }, false);
 
       setModal(false);

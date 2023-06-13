@@ -21,12 +21,6 @@ export default function RoutineAccordion({
 }) {
   const [active, setActive] = useState<number | null>(null);
   const { data: session } = useSession();
-  const [activeRoutines, setActiveRoutines] = useState<
-    {
-      id: string;
-      checked: boolean;
-    }[]
-  >(routines.map((r) => ({ id: r.id, checked: r.users[0].active })));
 
   async function handleActiveChange(id: string, active: boolean) {
     try {
@@ -69,15 +63,15 @@ export default function RoutineAccordion({
               active === routines.indexOf(routine) ? 'rounded-b-none' : ''
             }`}
           >
-            <CheckBox
+            {/*<CheckBox
               id={routine.id}
               selected={activeRoutines}
               setSelected={setActiveRoutines}
               onChange={(id, checked) => {
                 handleActiveChange(id, checked);
               }}
-            />
-            <h5 className='text-md text-gray-500'>{routine.name}</h5>
+            />*/}
+            <h5 className=' text-gray-500 font-bold'>{routine.name}</h5>
             <div className='bg-blue-500 text-white font-bold uppercase px-2 py-1 rounded-xl text-xs'>
               Ca.{' '}
               {routine.stages.reduce(
@@ -86,7 +80,7 @@ export default function RoutineAccordion({
               )}{' '}
               Min
             </div>
-            <p>
+            <p className='text-sm text-gray-500'>
               {routine.description.length > 50
                 ? routine.description.substring(0, 50) + '...'
                 : routine.description}
