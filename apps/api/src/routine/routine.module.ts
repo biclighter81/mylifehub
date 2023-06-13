@@ -4,10 +4,11 @@ import { RoutineController } from './routine.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Routine } from './entities/routine.entity';
 import { KeycloakConnectModule } from 'nest-keycloak-connect';
+import { RoutineStage } from './entities/routine-stage.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Routine]),
+    TypeOrmModule.forFeature([Routine, RoutineStage]),
     KeycloakConnectModule.register({
       authServerUrl: process.env.KEYCLOAK_URL,
       realm: process.env.KEYCLOAK_REALM,

@@ -143,6 +143,23 @@ export class RoutineController {
     }
   }
 
+  @Post('stages/:id/complete')
+  @UseGuards(AuthGuard)
+  async completeStage(
+    @Param('id') id: string,
+    @AuthenticatedUser() user: JWTKeycloakUser,
+  ) {
+    try {
+      return await this.routineSrv.completeStage(id, user.sub);
+    } catch (e) {
+      if (e instanceof RoutineNotFoundError) {
+        throw new HttpException('Routine not found!', 404);
+      }
+      console.log(e);
+      throw new HttpException('Error completing stage', 500);
+    }
+  }
+
   @Put(':id')
   @UseGuards(AuthGuard)
   async updateRoutine() {}

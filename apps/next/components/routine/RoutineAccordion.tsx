@@ -71,9 +71,7 @@ export default function RoutineAccordion({
                 handleActiveChange(id, checked);
               }}
             />*/}
-            <h5 className='text-md text-gray-500 uppercase font-bold'>
-              {routine.name}
-            </h5>
+            <h5 className=' text-gray-500 font-bold'>{routine.name}</h5>
             <div className='bg-blue-500 text-white font-bold uppercase px-2 py-1 rounded-xl text-xs'>
               Ca.{' '}
               {routine.stages.reduce(

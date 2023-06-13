@@ -11,6 +11,8 @@ export class RoutineService {
   constructor(
     @InjectRepository(Routine)
     private readonly routineRepo: Repository<Routine>,
+    @InjectRepository(RoutineStage)
+    private readonly routineStageRepo: Repository<RoutineStage>,
   ) {}
 
   async getRoutine(id: string, sub: string) {
@@ -37,7 +39,7 @@ export class RoutineService {
   async getRoutines(sub: string) {
     return await this.routineRepo.find({
       where: { users: [{ uid: sub }] },
-      relations: ['stages', 'users'],
+      relations: ['stages', 'users', 'stages.completions'],
     });
   }
 
@@ -101,6 +103,24 @@ export class RoutineService {
         ...stage,
         deletedAt: stage.id === stageId ? new Date() : stage.deletedAt,
       })),
+    });
+  }
+
+  async completeStage(id: string, sub: string) {
+    const stage = await this.routineStageRepo.findOne({
+      where: { id, routine: { users: [{ uid: sub }] } },
+      relations: ['completions'],
+    });
+    if (!stage) throw new RoutineNotFoundError('Stage not found!');
+    return await this.routineStageRepo.save({
+      ...stage,
+      completions: [
+        ...stage.completions,
+        {
+          uid: sub,
+          completedAt: new Date(),
+        },
+      ],
     });
   }
 }

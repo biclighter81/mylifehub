@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 import { Routine } from './routine/entities/routine.entity';
 import { RoutineStage } from './routine/entities/routine-stage.entity';
 import { User_Routine } from './routine/entities/use_routine.join-entity';
+import { RoutineStageCompletion } from './routine/entities/routine-stage-completion.entity';
 
 // eslint-disable-next-line
 const dotenv = require('dotenv');
@@ -14,7 +15,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-  entities: [Routine, RoutineStage, User_Routine],
+  entities: [Routine, RoutineStage, User_Routine, RoutineStageCompletion],
   schema: process.env.DB_SCHEMA,
   synchronize: true,
   useUTC: true,

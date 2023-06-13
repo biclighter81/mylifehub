@@ -33,8 +33,15 @@ export interface RoutineStage {
   updatedAt: Date;
 
   createdAt: Date;
+  completions: RoutineStageCompletion[];
 }
 
+export interface RoutineStageCompletion {
+  id: string;
+  uid: string;
+  completedAt: Date;
+  stageId: string;
+}
 export interface User_Routine {
   uid: string;
   routineId: string;
