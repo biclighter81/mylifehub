@@ -5,11 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppDataSource } from './datasource';
 import { RoutineModule } from './routine/routine.module';
 import { KeycloakConnectModule } from 'nest-keycloak-connect';
+import { GoalModule } from './goal/goal.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({ ...AppDataSource.options }),
     RoutineModule,
+    GoalModule,
     KeycloakConnectModule.register({
       authServerUrl: process.env.KEYCLOAK_URL,
       realm: process.env.KEYCLOAK_REALM,

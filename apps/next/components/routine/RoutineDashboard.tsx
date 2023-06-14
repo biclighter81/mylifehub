@@ -43,11 +43,37 @@ export default function RoutineDashboard({
       );
       return routine;
     });
-    //return only the routines that have stages
-    routines = routines.filter((routine) => routine.stages.length > 0);
-
     return routines.sort((a, b) => a.next - b.next);
   }, [data]);
+
+  function isCompleted(routine: Routine) {
+    return routine.stages.every((stage) =>
+      stage.completions.find(
+        (c) =>
+          dayjs(c.completedAt).format('YYYY-MM-DD') ===
+          dayjs().format('YYYY-MM-DD')
+      )
+    );
+  }
+
+  async function handleResetRoutine(id: string) {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/routine/${id}/reset`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        }
+      );
+      if (!res.ok) throw new Error('Error resetting routine');
+      mutate(data, true);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   async function handleCompleteStage(id: string) {
     try {
@@ -86,16 +112,23 @@ export default function RoutineDashboard({
         )}
         {routines.map((routine) => (
           <div key={routine.id} className='flex flex-col space-y-4'>
-            <div className='bg-gray-200 px-8 py-4 rounded-md'>
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center space-x-4'>
-                  <div className='flex items-center space-x-2'>
-                    <div className='text-gray-600 text-sm'>
-                      {routine.preferredTime}
-                    </div>
-                    <div className='text-gray-600 text-sm'>{routine.name}</div>
-                  </div>
+            <div className='bg-gray-200 px-8 py-4 rounded-md relative'>
+              {isCompleted(routine) && (
+                <div className='absolute top-0 left-0 w-1 h-full bg-green-500 rounded-l-md'></div>
+              )}
+              <div className='flex items-center space-x-2'>
+                <div className='text-gray-600 text-sm'>
+                  {routine.preferredTime}
                 </div>
+                <div className='text-gray-600 text-sm'>{routine.name}</div>
+                {isCompleted(routine) && (
+                  <div className='flex-grow flex justify-end'>
+                    <IconCheck
+                      className='text-green-500 hover:scale-110 transition-all duration-300 hover:cursor-pointer'
+                      onClick={() => handleResetRoutine(routine.id)}
+                    />
+                  </div>
+                )}
               </div>
             </div>
             {routine.stages?.length > 0 && (

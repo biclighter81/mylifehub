@@ -31,8 +31,8 @@ export default function Navbar() {
       active: false,
     },
     {
-      name: 'Streaks',
-      href: '/streaks',
+      name: 'Goals',
+      href: '/goals',
       active: false,
     },
   ];

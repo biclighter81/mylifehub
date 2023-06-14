@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Routine } from './entities/routine.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { RoutineNotFoundError } from '../lib/errors/routine';
 import { RoutineStage } from './entities/routine-stage.entity';
 import { CreateRoutine, CreateStage } from '../lib/dto/routine.dto';
+import dayjs from 'dayjs';
+import { RoutineStageCompletion } from './entities/routine-stage-completion.entity';
 
 @Injectable()
 export class RoutineService {
@@ -13,6 +15,8 @@ export class RoutineService {
     private readonly routineRepo: Repository<Routine>,
     @InjectRepository(RoutineStage)
     private readonly routineStageRepo: Repository<RoutineStage>,
+    @InjectRepository(RoutineStageCompletion)
+    private readonly routineCompletionRepo: Repository<RoutineStageCompletion>,
   ) {}
 
   async getRoutine(id: string, sub: string) {
@@ -64,6 +68,28 @@ export class RoutineService {
       stages: stages,
       users: [{ uid: sub }],
     });
+  }
+
+  async resetRoutine(id: string, sub: string) {
+    const routine = await this.routineRepo.findOne({
+      where: { id, users: [{ uid: sub }] },
+      relations: ['stages'],
+    });
+    if (!routine) throw new RoutineNotFoundError('Routine not found!');
+    const stageIds = routine.stages.map((stage) => stage.id);
+    const completions = await this.routineCompletionRepo.find({
+      where: { stageId: In(stageIds) },
+    });
+
+    const todaysCompletions = completions.filter(
+      (completion) =>
+        dayjs(completion.completedAt).format('YYYY-MM-DD') ==
+        dayjs().format('YYYY-MM-DD'),
+    );
+
+    for (const c of todaysCompletions) {
+      await this.routineCompletionRepo.delete(c.id);
+    }
   }
 
   async deleteRoutine(id: string, sub: string) {

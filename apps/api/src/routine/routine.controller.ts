@@ -160,6 +160,23 @@ export class RoutineController {
     }
   }
 
+  @Post(':id/reset')
+  @UseGuards(AuthGuard)
+  async resetRoutine(
+    @Param('id') id: string,
+    @AuthenticatedUser() user: JWTKeycloakUser,
+  ) {
+    try {
+      return await this.routineSrv.resetRoutine(id, user.sub);
+    } catch (e) {
+      if (e instanceof RoutineNotFoundError) {
+        throw new HttpException('Routine not found!', 404);
+      }
+      console.log(e);
+      throw new HttpException('Error resetting routine', 500);
+    }
+  }
+
   @Put(':id')
   @UseGuards(AuthGuard)
   async updateRoutine() {}
