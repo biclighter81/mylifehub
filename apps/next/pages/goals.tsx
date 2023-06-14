@@ -51,7 +51,10 @@ export default function Goals() {
       {create && <GoalCreationModal setActive={setCreate} mutate={mutate} />}
       <div className='grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4'>
         {data?.map((item) => (
-          <div className='bg-gray-200 rounded-md px-12 py-12 flex items-center justify-center flex-col relative overflow-hidden'>
+          <div
+            key={item.id}
+            className='bg-gray-200 rounded-md px-12 py-12 flex items-center justify-center flex-col relative overflow-hidden'
+          >
             <div className='bg-yellow-500 absolute top-0 right-0 h-10 w-10 rounded-lg -mr-4 -mt-4 hover:-mr-0 hover:-mt-0  duration-300 ease-in-out transition-all flex items-center justify-center'>
               <IconPencil
                 size={24}
