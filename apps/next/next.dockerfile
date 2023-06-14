@@ -20,6 +20,7 @@ RUN pnpm install
 # Build the project
 COPY --from=pruner /app/out/full/ .
 COPY turbo.json turbo.json
+ENV NEXT_PUBLIC_API_URL=https://mylifehub-api.becker-hosting.de
 RUN turbo run build --filter=next...
 
 FROM node:alpine AS runner
