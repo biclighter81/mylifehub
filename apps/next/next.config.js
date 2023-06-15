@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
   transpilePackages: ['types'],
-  imental: {
+  experimental: {
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
 };
