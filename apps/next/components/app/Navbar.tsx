@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useAppStore } from '../../stores/app.store';
 import { useRouter } from 'next/router';
 import { NavbarItem } from '../../lib/types/app';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { Transition } from '@headlessui/react';
 import Select from '../interaction/Select';
 import { useState } from 'react';
@@ -56,6 +56,14 @@ export default function Navbar() {
             </Link>
           </div>
         ))}
+        <div>
+          <span
+            className={`uppercase font-bold text-sm text-gray-600 hover:text-primary-500 transition duration-300 ease-in-out cursor-pointer`}
+            onClick={() => signOut()}
+          >
+            Logout
+          </span>
+        </div>
       </div>
       {/* Mobile */}
       <div className='lg:hidden flex justify-end'>
