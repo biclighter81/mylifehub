@@ -28,6 +28,6 @@ export class Goal {
   createdAt: Date;
   @UpdateDateColumn()
   updatedAt: Date;
-  @OneToMany(() => GoalCompletion, (goalCompletion) => goalCompletion.goal)
+  @OneToMany(() => GoalCompletion, (goalCompletion) => goalCompletion.goal, {cascade: true})
   completions: GoalCompletion[];
 }
