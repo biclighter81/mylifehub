@@ -47,7 +47,13 @@ export default function Goals() {
 
   return (
     <div>
-      {edit && <GoalEditModal setActive={setEdit} id={edit} />}
+      {edit && (
+        <GoalEditModal
+          setActive={setEdit}
+          goal={data?.find((g) => g.id == edit)}
+          mutate={mutate}
+        />
+      )}
       {create && <GoalCreationModal setActive={setCreate} mutate={mutate} />}
       <div className='grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4'>
         {data?.map((item) => (

@@ -4,10 +4,11 @@ import { GoalService } from './goal.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Goal } from './entities/goal.entity';
 import { KeycloakConnectModule } from 'nest-keycloak-connect';
+import { GoalCompletion } from './entities/goal-completion.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Goal]),
+    TypeOrmModule.forFeature([Goal, GoalCompletion]),
     KeycloakConnectModule.register({
       authServerUrl: process.env.KEYCLOAK_URL,
       realm: process.env.KEYCLOAK_REALM,

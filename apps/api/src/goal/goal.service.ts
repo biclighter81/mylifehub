@@ -5,12 +5,15 @@ import { Repository } from 'typeorm';
 import { CreateGoal } from '../lib/dto/goal.dto';
 import { GoalNotFound } from '../lib/errors/goal';
 import dayjs from 'dayjs';
+import { GoalCompletion } from './entities/goal-completion.entity';
 
 @Injectable()
 export class GoalService {
   constructor(
     @InjectRepository(Goal)
     private readonly goalRepo: Repository<Goal>,
+    @InjectRepository(GoalCompletion)
+    private readonly completionRepo: Repository<GoalCompletion>,
   ) {}
 
   async createGoal(input: CreateGoal, sub: string) {
@@ -66,6 +69,11 @@ export class GoalService {
       where: { id, uid: sub },
     });
     if (!goal) throw new GoalNotFound('Goal not found!');
+    await this.completionRepo.delete({
+      goal: {
+        id: goal.id,
+      },
+    });
     return await this.goalRepo.delete({ id, uid: sub });
   }
 }

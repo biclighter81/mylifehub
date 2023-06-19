@@ -47,13 +47,14 @@ export default function RoutineDashboard({
   }, [data]);
 
   function isCompleted(routine: Routine) {
-    return routine.stages.every((stage) =>
-      stage.completions.find(
+    return routine.stages.every((stage) => {
+      if (!stage.completions?.length) return false;
+      return stage.completions.find(
         (c) =>
           dayjs(c.completedAt).format('YYYY-MM-DD') ===
           dayjs().format('YYYY-MM-DD')
-      )
-    );
+      );
+    });
   }
 
   async function handleResetRoutine(id: string) {
@@ -162,7 +163,7 @@ export default function RoutineDashboard({
                       </div>
                       <div className='flex flex-grow items-center justify-end'>
                         <IconCheck
-                          className='text-primary-500'
+                          className='text-primary-500 cursor-pointer hover:scale-110 transition-all duration-300'
                           onClick={() => {
                             const element = document.getElementById(
                               routine.stages[0].id
