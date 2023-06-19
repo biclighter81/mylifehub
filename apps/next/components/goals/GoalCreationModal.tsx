@@ -109,6 +109,9 @@ export default function GoalCreationModal({
                 <option value='reps'>Reps</option>
                 <option value='calories'>Calories</option>
                 <option value='steps'>Steps</option>
+                <option value='count'>Count</option>
+                <option value='boolean'>Boolean</option>
+                <option value='other'>Other</option>
               </select>
             </div>
             <div className='flex flex-col space-y-1'>

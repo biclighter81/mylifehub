@@ -29,6 +29,9 @@ export class CreateGoal {
     'cups',
     'gallons',
     'calories',
+    'boolean',
+    'other',
+    'count',
   ])
   unit: string;
   @IsNotEmpty()
